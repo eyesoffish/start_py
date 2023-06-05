@@ -38,6 +38,9 @@ dependencies:
   path_provider: ^2.0.15
   process_run: ^0.13.0
   web3dart: ^2.6.1
+  flython: ^0.2.0
+  macos_process:
+    path: macos_process
 
 dev_dependencies:
   flutter_test:

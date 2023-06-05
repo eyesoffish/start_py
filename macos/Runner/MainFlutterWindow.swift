@@ -26,6 +26,7 @@ class MainFlutterWindow: NSWindow {
 //        print("error = \(error)")
 //    }
 //    print(updateShellPath)
+    
     super.awakeFromNib()
   }
 }
