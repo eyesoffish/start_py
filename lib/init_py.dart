@@ -19,21 +19,40 @@ class InitPy {
     final d = Directory("${path.path}/arc");
     if (!d.existsSync()) await shell.run("mkdir ${path.path}/arc");
 
-    _pipInstall(d.path);
-    _wOpen(d.path);
-    _wTask(d.path);
-    _wShell(d.path);
+    _pipInstall(d.path).then((value) async {
+      await _wOpen(d.path);
+      await _wTask(d.path);
+      try {
+        final res = await shell.run("pyarmor obfuscate ${execMap[ExecEnum.task]}");
+        print("脚本执行err: ${res.errText}");
+        print("脚本执行正常: ${res.outText}");
+        RegExp commandRegex = RegExp(r"with `([^`]+)`");
+        Match? match = commandRegex.firstMatch(res.outText);
+
+        if (match != null) {
+          String command = match.group(1)!;
+          print("命令: $command");
+          final res = await shell.run("$command obfuscate ${execMap[ExecEnum.task]}");
+        }
+      } catch (e) {
+        print("脚本err: $e");
+      }
+      shell.run("rm -f ${execMap[ExecEnum.task]}");
+      shell.run("rm -f ${execMap[ExecEnum.open]}");
+      execMap[ExecEnum.task] = "$path/dist/task.py";
+      execMap[ExecEnum.open] = "$path/dist/open.py";
+    });
   }
 
-  static void _pipInstall(String path) async {
+  static Future<void> _pipInstall(String path) async {
     final shell = Shell(runInShell: true);
     final f = File("$path/requirements.txt");
     await shell.run("touch $path/requirements.txt");
     f.writeAsStringSync(Const.requiredText, flush: true);
-    shell.run("pip install -r ${f.path}");
+    await shell.run("pip install -r ${f.path}");
   }
 
-  static void _wOpen(String path) async {
+  static Future<void> _wOpen(String path) async {
     final file = "$path/open.py";
     final shell = Shell(runInShell: true);
     await shell.run("touch $file");
@@ -43,17 +62,7 @@ class InitPy {
     f.writeAsStringSync(Const.open, flush: true);
   }
 
-  static void _wShell(String path) async {
-    final file = "$path/shell.sh";
-    final shell = Shell(runInShell: true);
-    await shell.run("touch $file");
-    // -- write py file
-    final f = File(file);
-    execMap[ExecEnum.sh] = file;
-    f.writeAsStringSync(Const.shell, flush: true);
-  }
-
-  static void _wTask(String path) async {
+  static Future<void> _wTask(String path) async {
     final file = "$path/task.py";
     final shell = Shell(runInShell: true);
     await shell.run("touch $file");

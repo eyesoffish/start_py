@@ -1,8 +1,6 @@
 class Const {
-  static const String shell = '''
-python3 "/Users/zoulin/Library/arc/task.py" test
-''';
   static const String requiredText = '''
+pyarmor
 requests
 web3
 python-binance

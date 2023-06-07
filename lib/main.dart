@@ -4,8 +4,6 @@ import 'dart:io';
 import 'package:demo_project/init_py.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flython/flython.dart';
-import 'package:macos_process/macos_process.dart';
 import 'package:process_run/cmd_run.dart';
 import 'package:process_run/process_run.dart';
 
@@ -43,7 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   String res = "";
   String err = "";
-  final p = MacosProcess();
   @override
   void initState() {
     super.initState();
@@ -56,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     final file = InitPy.execMap[ExecEnum.task];
     try {
+      InitPy.initPy();
       // var shell = ProcessCmd("/bin/bash", [..."-c python3 $file test".split(" ")]);
       // final _temp = await Process.run("which", ["python"], runInShell: true);
       // final _temp = await p.run(file!, ["test"]);
@@ -67,12 +65,12 @@ class _MyHomePageState extends State<MyHomePage> {
       //   runInShell: false,
       // );
       // final temp = await runCmd(shell);
-      final temp = await runExecutableArguments("/bin/bash", ["-c", "python3 $file test"]);
-      // final temp = await shell.run("/bin/bash ");
-      setState(() {
-        res = "${temp.outText}";
-        err = "${temp.errText}";
-      });
+      // final temp = await runExecutableArguments("/bin/bash", ["-c", "python3 $file test"]);
+      // // final temp = await shell.run("/bin/bash ");
+      // setState(() {
+      //   res = "${temp.outText}";
+      //   err = "${temp.errText}";
+      // });
     } catch (e) {
       setState(() {
         _counter = -100;
