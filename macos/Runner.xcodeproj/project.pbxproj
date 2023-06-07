@@ -30,7 +30,6 @@
 		33CC11132044BFA00003C045 /* MainFlutterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC11122044BFA00003C045 /* MainFlutterWindow.swift */; };
 		362C372C380C6522D0244FF6 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3084D4DDB712ABF45B7F0F77 /* Pods_RunnerTests.framework */; };
 		97A22BF62A2DB4A900E05A89 /* plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A22BF52A2DB4A900E05A89 /* plugin.swift */; };
-		97E2B30E2A28456200BF8287 /* openChrome.py in Resources */ = {isa = PBXBuildFile; fileRef = 97E2B30D2A28456200BF8287 /* openChrome.py */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,7 +87,6 @@
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		97A22BF52A2DB4A900E05A89 /* plugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = plugin.swift; sourceTree = "<group>"; };
-		97E2B30D2A28456200BF8287 /* openChrome.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = openChrome.py; sourceTree = "<group>"; };
 		AC808DC5FD7DF2333D72F02C /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		C06E81F25AFC63BE4D4B3FF3 /* Pods-RunnerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F90654011C349CA36967B1D9 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
@@ -179,7 +177,6 @@
 		33FAB671232836740065AC1E /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				97E2B30D2A28456200BF8287 /* openChrome.py */,
 				33CC10F02044A3C60003C045 /* AppDelegate.swift */,
 				33CC11122044BFA00003C045 /* MainFlutterWindow.swift */,
 				33E51913231747F40026EE4D /* DebugProfile.entitlements */,
@@ -319,7 +316,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97E2B30E2A28456200BF8287 /* openChrome.py in Resources */,
 				33CC10F32044A3C60003C045 /* Assets.xcassets in Resources */,
 				33CC10F62044A3C60003C045 /* MainMenu.xib in Resources */,
 			);

@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'package:demo_project/init_py.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:process_run/cmd_run.dart';
 import 'package:process_run/process_run.dart';
 
@@ -17,13 +19,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return OKToast(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -41,10 +45,17 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   String res = "";
   String err = "";
+  List<String> list = [];
   @override
   void initState() {
     super.initState();
-    InitPy.initPy();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      InitPy.initPy((sender) {
+        setState(() {
+          list.add(sender);
+        });
+      });
+    });
   }
 
   void _incrementCounter() async {
@@ -53,8 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     final file = InitPy.execMap[ExecEnum.task];
     try {
-      InitPy.initPy();
-      // var shell = ProcessCmd("/bin/bash", [..."-c python3 $file test".split(" ")]);
+      // InitPy.initPy();
+      // var shell = ProcessCmd("/bin/bash", [..."-c python3 $file test"]);
       // final _temp = await Process.run("which", ["python"], runInShell: true);
       // final _temp = await p.run(file!, ["test"]);
       // final _temp = await shell.run("/Users/zoulin/miniconda3/bin/ptyhon $file test");
@@ -65,12 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
       //   runInShell: false,
       // );
       // final temp = await runCmd(shell);
-      // final temp = await runExecutableArguments("/bin/bash", ["-c", "python3 $file test"]);
+      final temp = await runExecutableArguments("/bin/bash", ["-c", "python3 $file test"]);
       // // final temp = await shell.run("/bin/bash ");
-      // setState(() {
-      //   res = "${temp.outText}";
-      //   err = "${temp.errText}";
-      // });
+      setState(() {
+        res = "${temp.outText}";
+        err = "${temp.errText}";
+      });
     } catch (e) {
       setState(() {
         _counter = -100;
@@ -98,6 +109,14 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: list.length,
+                itemBuilder: ((context, index) {
+                  return Text(list[index]);
+                }),
+              ),
+            )
           ],
         ),
       ),
