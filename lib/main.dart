@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:process_run/cmd_run.dart';
 import 'package:process_run/process_run.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
     final file = InitPy.execMap[ExecEnum.task];
+
     try {
       // InitPy.initPy();
       // var shell = ProcessCmd("/bin/bash", [..."-c python3 $file test"]);
@@ -76,8 +78,13 @@ class _MyHomePageState extends State<MyHomePage> {
       //   runInShell: false,
       // );
       // final temp = await runCmd(shell);
-      final temp = await runExecutableArguments("/bin/bash", ["-c", "python3 $file test"]);
+      // final temp = await runExecutableArguments("/bin/bash", ["-c", "python3 $file test"]);
       // // final temp = await shell.run("/bin/bash ");
+      final path = await getLibraryDirectory();
+      final temp = await run(
+        "unzip ${path.path}/dist.zip -d ${path.path}",
+        runInShell: true,
+      );
       setState(() {
         res = "${temp.outText}";
         err = "${temp.errText}";

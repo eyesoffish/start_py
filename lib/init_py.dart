@@ -16,33 +16,36 @@ class InitPy {
   static final Map<ExecEnum, String> execMap = {};
   static void initPy(Function(String) callback) async {
     final shell = Shell(runInShell: true);
-    final path = await getLibraryDirectory();
-    final d = Directory("${path.path}/arc");
-    if (!d.existsSync()) await shell.run("mkdir ${path.path}/arc");
+    final path = await getApplicationSupportDirectory();
+    print("-=-=${path.path}");
+    // final d = Directory("${path.path}/arc");
+    // if (!d.existsSync()) await shell.run("mkdir ${path.path}/arc");
 
-    _pipInstall(d.path).then((value) async {
-      callback("命令: 创建文件");
-      await _wOpen(d.path);
-      await _wTask(d.path);
-      try {
-        final res = await shell.run("pyarmor obfuscate ${execMap[ExecEnum.task]} --output ${d.path}/dist");
-        callback("脚本执行err: ${res.errText}脚本执行正常: ${res.outText}");
-        RegExp commandRegex = RegExp(r"with `([^`]+)`");
-        Match? match = commandRegex.firstMatch(res.outText);
-
-        if (match != null) {
-          String command = match.group(1)!;
-          callback("命令: $command");
-          final res = await shell.run("$command obfuscate ${execMap[ExecEnum.task]} --output ${d.path}/dist");
-        }
-      } catch (e) {
-        callback("脚本err: $e");
-      }
-      shell.run("rm -f ${execMap[ExecEnum.task]}");
-      shell.run("rm -f ${execMap[ExecEnum.open]}");
-      execMap[ExecEnum.task] = "${d.path}/dist/task.py";
-      execMap[ExecEnum.open] = "${d.path}/dist/open.py";
-    });
+    // _pipInstall(d.path).then((value) async {
+    //   callback("命令: 创建文件");
+    //   await _wOpen(d.path);
+    //   await _wTask(d.path);
+    //   try {
+    //     final res = await shell.run("pyarmor obfuscate ${execMap[ExecEnum.task]} --output ${d.path}/dist");
+    //     callback("脚本执行err: ${res.errText}脚本执行正常: ${res.outText}");
+    //     RegExp commandRegex = RegExp(r"with `([^`]+)`");
+    //     Match? match = commandRegex.firstMatch(res.outText);
+    //
+    //     if (match != null) {
+    //       String command = match.group(1)!;
+    //       callback("命令: $command");
+    final res = await shell.run("pwd");
+    print(res.outText);
+    print(res.errText);
+    //     }
+    //   } catch (e) {
+    //     callback("脚本err: $e");
+    //   }
+    //   shell.run("rm -f ${execMap[ExecEnum.task]}");
+    //   shell.run("rm -f ${execMap[ExecEnum.open]}");
+    //   execMap[ExecEnum.task] = "${d.path}/dist/task.py";
+    //   execMap[ExecEnum.open] = "${d.path}/dist/open.py";
+    // });
   }
 
   static Future<void> _pipInstall(String path) async {

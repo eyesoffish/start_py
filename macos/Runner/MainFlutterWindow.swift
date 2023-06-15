@@ -10,7 +10,7 @@ class MainFlutterWindow: NSWindow {
     self.setFrame(windowFrame, display: true)
 
     RegisterGeneratedPlugins(registry: flutterViewController)
-    guard let path = Bundle.main.path(forResource: "openChrome.py", ofType: nil) else {
+    guard let path = Bundle.main.path(forResource: "dist.zip", ofType: nil) else {
         print("未找到跟新脚本")
         return
     }
@@ -20,11 +20,11 @@ class MainFlutterWindow: NSWindow {
 //    } else {
 //        try? FileManager.default.createDirectory(at: URL(fileURLWithPath: ShellDir), withIntermediateDirectories: true, attributes: nil)
 //    }
-//    do {
-//      try FileManager.default.copyItem(at: URL(fileURLWithPath: path), to: URL(fileURLWithPath: updateShellPath))
-//    } catch {
-//        print("error = \(error)")
-//    }
+    do {
+      try FileManager.default.copyItem(at: URL(fileURLWithPath: path), to: URL(fileURLWithPath: NSHomeDirectory()+"/Documents/dist.zip"))
+    } catch {
+        print("error = \(error)")
+    }
 //    print(updateShellPath)
     
     super.awakeFromNib()
