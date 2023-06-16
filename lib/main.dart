@@ -80,7 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
       // final temp = await runCmd(shell);
       // final temp = await runExecutableArguments("/bin/bash", ["-c", "python3 $file test"]);
       // // final temp = await shell.run("/bin/bash ");
-      final path = await getLibraryDirectory();
+      final path = await getApplicationDocumentsDirectory();
+
       final temp = await run(
         "unzip ${path.path}/dist.zip -d ${path.path}",
         runInShell: true,
