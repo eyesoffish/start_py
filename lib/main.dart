@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:demo_project/const.dart';
 import 'package:demo_project/init_py.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -78,14 +80,16 @@ class _MyHomePageState extends State<MyHomePage> {
       //   runInShell: false,
       // );
       // final temp = await runCmd(shell);
-      // final temp = await runExecutableArguments("/bin/bash", ["-c", "python3 $file test"]);
-      // // final temp = await shell.run("/bin/bash ");
-      final path = await getApplicationDocumentsDirectory();
-
-      final temp = await run(
-        "unzip ${path.path}/dist.zip -d ${path.path}",
-        runInShell: true,
-      );
+      // final temp = await runExecutableArguments(
+      //   "/bin/bash",
+      //   ["-c", "python3 ${InitPy.execMap[ExecEnum.task]} '${Const.task}' test"],
+      // );
+      final shell = Shell(runInShell: true);
+      // String code = base64Encode(utf8.encode(Const.task));
+      final _run = "python3 -c '''${Const.task}''' test 123";
+      print(_run);
+      final temp = await shell.run(_run);
+      Clipboard.setData(const ClipboardData(text: "python3 -c ${Const.task} test 123"));
       setState(() {
         res = "${temp.outText}";
         err = "${temp.errText}";
@@ -105,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -117,14 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: list.length,
-                itemBuilder: ((context, index) {
-                  return Text(list[index]);
-                }),
-              ),
-            )
           ],
         ),
       ),
